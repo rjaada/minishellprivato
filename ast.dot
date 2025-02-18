@@ -1,7 +1,3 @@
 digraph AST {
-"0x5b0d4b137550" [label="UNKNOWN"];
-"0x5b0d4b137550" -> "0x5b0d4b137580" [label="L"];
-"0x5b0d4b137580" [label="CMD: test.txt"];
-"0x5b0d4b137550" -> "0x5b0d4b137520" [label="R"];
-"0x5b0d4b137520" [label="CMD: echo tesjrerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrt"];
+"0x561d3d5fc940" [label="CMD: exit 123"];
 }
