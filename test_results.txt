@@ -1,0 +1,269 @@
+minishell> echo hello world
+hello world
+minishell> echo "hello world"
+free(): double free detected in tcache 2
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> echo 'hello world'
+hello world
+minishell> echo hello'world'
+hello world
+minishell> echo hello""world
+hello  world
+minishell> echo ''
+
+minishell> echo "$PWD"
+/home/rjaada/42malaga/Minishell_42_Project
+minishell> echo '$PWD'
+$PWD
+minishell> echo "aspas ->'"
+free(): double free detected in tcache 2
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> echo "aspas -> ' "
+free(): double free detected in tcache 2
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<"
+free(): double free detected in tcache 2
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> echo "$"
+
+minishell> echo '$'
+$
+minishell> echo $
+
+minishell> echo $?
+0
+minishell> echo $?HELLO
+free(): double free detected in tcache 2
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> pwd
+/home/rjaada/42malaga/Minishell_42_Project
+minishell> pwd oi
+Too many arguments
+minishell> export hello
+minishell> export HELLO=123
+minishell> export A-
+export: not a valid identifier
+minishell> export HELLO=123 A
+minishell> export HELLO="123 A-"
+free(): double free detected in tcache 2
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> export hello world
+minishell> export HELLO-=123
+export: not a valid identifier
+minishell> export =
+export: not a valid identifier
+minishell> export 123
+export: not a valid identifier
+minishell> unset
+minishell> unset HELLO
+minishell> unset HELLO1 HELLO2
+minishell> unset HOME
+Segmentation fault (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> unset PATh
+minishell> unset PATH
+Segmentation fault (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> unset SHELL
+munmap_chunk(): invalid pointer
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> cd $PWD
+minishell> cd $PWD hi
+minishell> cd 123123
+error: cd: cannot change directory to 123123
+minishell> exit 123
+minishell> exit 298
+minishell> exit +100
+minishell>
+minishell> ^C
+minishell> exit "+100"
+free(): double free detected in tcache 2
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> exit +"100"
+free(): double free detected in tcache 2
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> exit -100
+minishell> exit "-100"
+free(): double free detected in tcache 2
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> exit -"100"
+free(): double free detected in tcache 2
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> exit hello
+minishell> exit 42 world
+minishell> $PWD
+minishell> $EMPTY
+minishell> $EMPTY echo hi
+minishell> ./test_files/invalid_permission
+minishell: command not found: ./test_files/invalid_permission
+minishell> ./missing.out
+minishell: command not found: ./missing.out
+minishell> missing.out
+minishell: command not found: missing.out
+minishell> "aaa"
+double free or corruption (fasttop)
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> test_files
+minishell: command not found: test_files
+minishell> ./test_files
+minishell: command not found: ./test_files
+minishell> /test_files
+minishell: command not found: /test_files
+minishell> minishell.h
+minishell: command not found: minishell.h
+minishell> $
+minishell> $?
+minishell: command not found: 1
+minishell> README.md
+minishell: command not found: README.md
+minishell> unset HELLO=
+minishell> unset  A-
+minishell> export HELLO=123 A- WORLD=456
+export: not a valid identifier
+minishell> unset  HELLO A- WORLD
+minishell> export UNO=1 DOS-2 TRES=3 || env | grep TRES
+Syntax error: misplaced operator
+minishell> export | sort | grep -v SHLVL | grep -v "declare -x _" | grep -v "PS.="
+free(): double free detected in tcache 2
+Aborted (core dumped)
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$ ./minishell
+
+    ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗
+    ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║
+    ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║
+    ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+minishell> exit 9223372036854775807
+minishell> exit 9223372036854775808
+minishell>
+minishell> exit -9223372036854775807
+minishell> exit -9223372036854775808
+minishell> exit -9223372036854775809
+minishell> exit
+rjaada@WOLFY:~/42malaga/Minishell_42_Project$
