@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:26:22 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/18 17:09:13 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 17:54:04 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,11 @@ static char	*merge_words(char *word1, char *word2)
 	if (!word1)
 		return (word2);
 	if (!word2)
+		return (word1);
+	if (!*word2)
 	{
-		if (word1)
-			return (word1);
-		return (ft_strdup(""));
+		free(word2);
+		return (word1);
 	}
 	result = ft_strjoin(word1, word2);
 	free(word1);
@@ -68,29 +69,38 @@ static char	*merge_words(char *word1, char *word2)
 	return (result);
 }
 
-static char	*check_next_quote(t_lexer *lexer, char *current_word)
+static int	is_single_dollar(const char *str)
 {
-	char	*quoted_part;
-	char	quote_type;
-	int		next_pos;
+	int	i;
 
-	next_pos = lexer->pos;
-	while (next_pos < lexer->len && (lexer->input[next_pos] == '\''
-			|| lexer->input[next_pos] == '"'))
-	{
-		quote_type = lexer->input[next_pos];
-		lexer->pos = next_pos;
-		lexer->pos++;
-		quoted_part = get_quoted_content(lexer, quote_type, &lexer->pos);
-		if (!quoted_part)
-		{
-			free(current_word);
-			return (NULL);
-		}
-		current_word = merge_words(current_word, quoted_part);
-		next_pos = ++lexer->pos;
-	}
-	return (current_word);
+	i = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	if (str[i] != '$')
+		return (0);
+	i++;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	return (!str[i]);
+}
+
+static char	*handle_special_chars(t_lexer *lexer, char *word)
+{
+	char	curr;
+	char	*new_part;
+	char	*tmp;
+
+	curr = lexer->input[lexer->pos];
+	new_part = (char *)malloc(2);
+	if (!new_part)
+		return (word);
+	new_part[0] = curr;
+	new_part[1] = '\0';
+	tmp = ft_strjoin(word, new_part);
+	free(word);
+	free(new_part);
+	lexer->pos++;
+	return (tmp);
 }
 
 t_token	*handle_quote(t_lexer *lexer, char quote_type)
@@ -108,40 +118,45 @@ t_token	*handle_quote(t_lexer *lexer, char quote_type)
 		return (NULL);
 	}
 	lexer->pos = pos + 1;
-	if (quote_type == '"' && ft_strchr(word, '$'))
+	if (quote_type == '"')
 	{
-		if (word[0] == '$' && (!word[1] || word[1] == ' '))
-			return (token_create(TOKEN_WORD, word));
-		expanded = expand_shell_vars(word, lexer->env);
-		free(word);
-		return (token_create(TOKEN_WORD, expanded));
+		if (ft_strchr(word, '$'))
+		{
+			if (word[0] == '$' && !word[1])
+				return (token_create(TOKEN_WORD, word));
+			expanded = expand_shell_vars(word, lexer->env);
+			free(word);
+			return (token_create(TOKEN_WORD, expanded));
+		}
 	}
 	return (token_create(TOKEN_WORD, word));
 }
 
 t_token	*handle_word(t_lexer *lexer)
 {
-	int		start;
 	char	*word;
-	char	*final_word;
 	char	*expanded;
 
-	start = lexer->pos;
-	while (lexer->pos < lexer->len && is_word_char(lexer->input[lexer->pos]))
-		lexer->pos++;
-	word = ft_substr(lexer->input, start, lexer->pos - start);
+	word = ft_strdup("");
+	while (lexer->pos < lexer->len)
+	{
+		if (lexer->input[lexer->pos] == '\'' || lexer->input[lexer->pos] == '"')
+		{
+			expanded = handle_quote(lexer, lexer->input[lexer->pos])->value;
+			word = merge_words(word, expanded);
+		}
+		else if (is_word_char(lexer->input[lexer->pos]))
+			word = handle_special_chars(lexer, word);
+		else
+			break ;
+	}
 	if (!word)
 		return (NULL);
-	if (word[0] == '$' && (!word[1] || word[1] == ' '))
-		return (token_create(TOKEN_WORD, word));
-	final_word = check_next_quote(lexer, word);
-	if (!final_word)
-		return (NULL);
-	if (ft_strchr(final_word, '$'))
+	if (ft_strchr(word, '$') && !is_single_dollar(word))
 	{
-		expanded = expand_shell_vars(final_word, lexer->env);
-		free(final_word);
+		expanded = expand_shell_vars(word, lexer->env);
+		free(word);
 		return (token_create(TOKEN_WORD, expanded));
 	}
-	return (token_create(TOKEN_WORD, final_word));
+	return (token_create(TOKEN_WORD, word));
 }
