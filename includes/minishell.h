@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:02:40 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/15 16:54:16 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 13:20:56 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "../libraries/libft/libft.h"
 # include "builtins.h"
+# include "lexer.h"
+# include "parsing.h"
+# include "utils.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -72,6 +75,20 @@ typedef struct s_data
 	t_cmd				*cmd;
 }						t_data;
 
+typedef struct s_ast
+{
+	t_type_node			type;
+	char				**value;
+	struct s_ast		*left;
+	struct s_ast		*right;
+}						t_ast;
+
+typedef struct s_list_token
+{
+	t_token				*token;
+	struct s_list_token	*next;
+}						t_list_token;
+
 /* Forward declarations */
 typedef struct s_token	t_token;
 
@@ -87,7 +104,7 @@ int						has_invalid_redirections(const char *input);
 int						has_misplaced_operators(const char *input);
 int						has_logical_operators(const char *input);
 void					update_quote_counts(char c, int *s_q, int *d_q);
-int						check_redirection(const char **input);
+int						is_invalid_operator(const char **input);
 
 /* String utils */
 char					*str_join_char(char *str, char c);
@@ -109,14 +126,15 @@ void					print_banner(void);
 
 /* Builtin execution */
 int						is_builtin(char *cmd);
-int						execute_builtin(char **args, char **env);
-char					**create_args_array(t_list *tokens);
-void					free_args_array(char **args);
-int						handle_builtin(t_list *tokens, char **env);
+int						handle_builtin(char **args, char **env);
+char					**create_args_array(t_list_token *tokens);
+void					free_args_array(char **args, int count);
 
 /* Execution */
 int						execute_command(char **args, char **env);
 void					free_array(char **arr);
 char					*find_command_path(char *cmd, char **env);
+
+void					generate_ast_diagram(t_ast *root);
 
 #endif

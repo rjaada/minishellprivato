@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmoundir <kmoundir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 01:23:55 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/16 12:15:45 by kmoundir         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:59:26 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ void	free_array(char **arr)
 
 static void	exec_error(char *cmd)
 {
-	(void)cmd;
-	ft_putstr_fd(" command not found\n", 2);
-	//ft_putendl_fd(cmd, 2);
+	ft_putstr_fd("minishell: command not found: ", 2);
+	ft_putendl_fd(cmd, 2);
 }
 
 static void	child_process(char *cmd_path, char **args, char **env)
 {
 	execve(cmd_path, args, env);
+	exit(1);
 }
 
 int	execute_command(char **args, char **env)
@@ -54,6 +54,6 @@ int	execute_command(char **args, char **env)
 		child_process(cmd_path, args, env);
 	waitpid(pid, &status, 0);
 	free(cmd_path);
-	g_exit_status = WEXITSTATUS(status);//prohibida en 42
+	g_exit_status = WEXITSTATUS(status);
 	return (g_exit_status);
 }

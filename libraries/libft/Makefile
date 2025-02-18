@@ -38,15 +38,7 @@ SRCS =	ft_isalpha.c \
 		get_next_line.c \
 		get_next_line_utils.c
 
-SRCSB =	ft_lstnew_bonus.c \
-		ft_lstadd_front_bonus.c \
-		ft_lstsize_bonus.c \
-		ft_lstlast_bonus.c \
-		ft_lstadd_back_bonus.c \
-		ft_lstdelone_bonus.c \
-		ft_lstclear_bonus.c \
-		ft_lstiter_bonus.c \
-		ft_lstmap_bonus.c
+
 	
 OBJS = $(SRCS:.c=.o)
 OBJSB = $(SRCSB:.c=.o)
@@ -61,14 +53,14 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@$(LIBC) $(NAME) $(OBJS)
 
-bonus: $(NAME) $(OBJSB)
-	@$(LIBC) $(NAME) $(OBJSB)
+bonus: $(NAME)
+	@$(LIBC) $(NAME) 
 
 %.o: %.c libft.h
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@$(RM) $(OBJS) $(OBJSB)
+	@$(RM) $(OBJS)
 
 fclean: clean
 	@$(RM) $(NAME)

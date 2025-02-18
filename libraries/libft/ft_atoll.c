@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 23:52:52 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/15 23:52:58 by rjaada           ###   ########.fr       */
+/*   Created: 2025/02/18 11:58:17 by rjaada            #+#    #+#             */
+/*   Updated: 2025/02/18 11:58:25 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ long long	ft_atoll(const char *str)
 	result = 0;
 	sign = 1;
 	i = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+	while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
+			|| str[i] == '\r' || str[i] == '\v' || str[i] == '\f'))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{

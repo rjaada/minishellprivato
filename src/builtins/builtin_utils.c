@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 21:09:56 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/18 02:00:09 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 13:19:46 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	count_args(char **args)
 	return (i);
 }
 
-int	execute_builtin(char **args, char **env)
+int	handle_builtin(char **args, char **env)
 {
 	if (!args || !args[0])
 		return (1);

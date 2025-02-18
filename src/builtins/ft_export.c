@@ -6,11 +6,23 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:20:00 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/18 02:14:24 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 13:15:37 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*get_var_name(const char *str)
+{
+	int		i;
+	char	*name;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	name = ft_substr(str, 0, i);
+	return (name);
+}
 
 int	find_env_var(char **env, const char *name)
 {
@@ -31,34 +43,37 @@ int	find_env_var(char **env, const char *name)
 	return (-1);
 }
 
-int	is_valid_identifier(const char *str)
+static int	is_valid_name(const char *name)
 {
-	int		i;
-	char	*value;
+	int	i;
 
-	value = ft_strchr(str, '=');
-	if (value)
-		*value = '\0';
-	if (!str || !*str || (!ft_isalpha(*str) && *str != '_'))
-	{
-		if (value)
-			*value = '=';
+	if (!name || !*name || (!ft_isalpha(*name) && *name != '_'))
 		return (0);
-	}
 	i = 1;
-	while (str[i] && (!value || str + i < value))
+	while (name[i])
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-		{
-			if (value)
-				*value = '=';
+		if (!ft_isalnum(name[i]) && name[i] != '_')
 			return (0);
-		}
 		i++;
 	}
-	if (value)
-		*value = '=';
 	return (1);
+}
+
+static int	is_valid_assignment(const char *str)
+{
+	char	*name;
+	char	*equals;
+	int		valid;
+
+	equals = ft_strchr(str, '=');
+	if (!equals)
+		return (1); // Just a name without assignment is valid
+	name = get_var_name(str);
+	if (!name)
+		return (0);
+	valid = is_valid_name(name);
+	free(name);
+	return (valid);
 }
 
 static int	update_env_var(char **env, char *new_var)
@@ -68,7 +83,9 @@ static int	update_env_var(char **env, char *new_var)
 	int		var_index;
 	char	*dup;
 
-	var_name = ft_substr(new_var, 0, ft_strchr(new_var, '=') - new_var);
+	var_name = get_var_name(new_var);
+	if (!var_name)
+		return (0);
 	var_index = find_env_var(env, var_name);
 	free(var_name);
 	if (var_index >= 0)
@@ -104,7 +121,7 @@ int	ft_export(char **args, char **env)
 	i = 1;
 	while (args[i])
 	{
-		if (!is_valid_identifier(args[i]))
+		if (!is_valid_assignment(args[i]))
 		{
 			ft_putstr_fd("export: `", 2);
 			ft_putstr_fd(args[i], 2);

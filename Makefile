@@ -31,7 +31,9 @@ SRC_FILES = main.c \
 		input_validation/input_validation_utils.c \
 		expander/expander.c \
 		parser/parser.c \
+		parser/utilslist.c \
 		parser/parser_utils.c \
+		parser/testPrintASt.c \
 		signals/signals.c \
 		utils/utils.c \
 		utils/utils_mem.c \
@@ -46,8 +48,14 @@ SRC_FILES = main.c \
 		builtins/ft_export.c \
 		builtins/ft_export_utils.c \
 		builtins/builtin_utils.c \
-		execution/exec_cmd.c \
-        execution/exec_utils.c \
+		execution/execute_ast.c \
+		execution/execute_cmd.c \
+		execution/setup_pipes.c \
+		execution/env_handle.c\
+		execution/get_set_env.c\
+		execution/exec_cmd.c\
+		execution/exec_utils.c\
+		execution/redirection_handling.c
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJS = $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
