@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:20:30 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/18 13:11:20 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:35:47 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,34 @@ static void	sort_env_array(char **sorted, int size)
 	}
 }
 
+static void	print_env_var(char *var)
+{
+	int		i;
+	int		found_equals;
+	char	*value;
+
+	ft_putstr_fd("declare -x ", 1);
+	found_equals = 0;
+	i = 0;
+	while (var[i])
+	{
+		if (var[i] == '=')
+		{
+			found_equals = 1;
+			ft_putchar_fd(var[i], 1);
+			ft_putchar_fd('"', 1);
+			value = &var[i + 1];
+			ft_putstr_fd(value, 1);
+			ft_putchar_fd('"', 1);
+			break ;
+		}
+		ft_putchar_fd(var[i], 1);
+		i++;
+	}
+	if (!found_equals)
+		ft_putchar_fd('\n', 1);
+}
+
 void	print_sorted_env(char **env)
 {
 	char	**sorted;
@@ -64,10 +92,7 @@ void	print_sorted_env(char **env)
 	sort_env_array(sorted, size);
 	i = -1;
 	while (sorted[++i])
-	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putendl_fd(sorted[i], 1);
-	}
+		print_env_var(sorted[i]);
 	free(sorted);
 }
 

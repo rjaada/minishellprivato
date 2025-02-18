@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 21:09:56 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/18 15:10:04 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:34:52 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ int	handle_builtin(char **args, char **env)
 	return (1);
 }
 
+static int	is_valid_char(char c)
+{
+	return (ft_isalnum(c) || c == '_' || c == '-');
+}
+
 int	is_valid_identifier(const char *str)
 {
 	int	i;
@@ -59,7 +64,7 @@ int	is_valid_identifier(const char *str)
 	i = 1;
 	while (str[i] && str[i] != '=')
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
+		if (!is_valid_char(str[i]))
 			return (0);
 		i++;
 	}
