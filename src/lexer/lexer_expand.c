@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:28:41 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/18 15:42:40 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 17:02:56 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@ static char	*get_var_name(char *str, int *i)
 		(*i)++;
 		return (ft_strdup("?"));
 	}
+	if (str[*i] == ' ' || !str[*i])
+		return (ft_strdup("$"));
 	start = *i;
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
+	if (*i == start)
+		return (ft_strdup("$"));
 	return (ft_substr(str, start, *i - start));
 }
 
@@ -38,6 +42,8 @@ static char	*get_shell_var_value(char **env, char *var_name)
 		return (ft_strdup(""));
 	if (ft_strcmp(var_name, "?") == 0)
 		return (ft_itoa(g_exit_status));
+	if (ft_strcmp(var_name, "$") == 0)
+		return (ft_strdup("$"));
 	len = ft_strlen(var_name);
 	i = 0;
 	while (env[i])
