@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:26:22 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/18 15:18:49 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:22:31 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,56 +44,39 @@ static char	*get_quoted_content(t_lexer *lexer, char quote_type, int *pos)
 	return (content);
 }
 
-static char	*merge_words(char *current, char *next)
+static char	*merge_words(char *word1, char *word2)
 {
 	char	*result;
 
-	if (!current)
-		return (ft_strdup(next ? next : ""));
-	if (!next)
-		return (current);
-	result = ft_strjoin(current, next);
-	free(current);
-	free(next);
+	if (!word1)
+		return (word2);
+	if (!word2)
+		return (word1);
+	result = ft_strjoin(word1, word2);
+	free(word1);
+	free(word2);
 	return (result);
 }
 
 static char	*check_next_quote(t_lexer *lexer, char *current_word)
 {
-	int		next_pos;
-	char	*quoted_part;
-	char	quote_type;
+	char	*next_word;
+	char	*temp;
 
-	next_pos = lexer->pos;
-	while (next_pos < lexer->len && (lexer->input[next_pos] == '\''
-			|| lexer->input[next_pos] == '"'))
+	while (lexer->pos < lexer->len && (lexer->input[lexer->pos] == '\''
+			|| lexer->input[lexer->pos] == '"'))
 	{
-		quote_type = lexer->input[next_pos];
-		lexer->pos = next_pos + 1;
-		quoted_part = get_quoted_content(lexer, quote_type, &lexer->pos);
-		if (!quoted_part)
+		temp = handle_quote(lexer, lexer->input[lexer->pos])->value;
+		next_word = ft_strdup(temp);
+		free(temp);
+		if (!next_word)
 		{
 			free(current_word);
 			return (NULL);
 		}
-		current_word = merge_words(current_word, quoted_part);
-		if (!current_word)
-			return (NULL);
-		lexer->pos++;
-		next_pos = lexer->pos;
+		current_word = merge_words(current_word, next_word);
 	}
 	return (current_word);
-}
-
-static char	*process_empty_quotes(t_lexer *lexer, char quote_type)
-{
-	if (lexer->input[lexer->pos] == quote_type && lexer->input[lexer->pos
-		+ 1] == quote_type)
-	{
-		lexer->pos += 2;
-		return (ft_strdup(""));
-	}
-	return (NULL);
 }
 
 t_token	*handle_quote(t_lexer *lexer, char quote_type)
@@ -103,9 +86,11 @@ t_token	*handle_quote(t_lexer *lexer, char quote_type)
 	int		pos;
 
 	lexer->pos++;
-	word = process_empty_quotes(lexer, quote_type);
-	if (word)
-		return (token_create(TOKEN_WORD, word));
+	if (lexer->input[lexer->pos] == quote_type)
+	{
+		lexer->pos++;
+		return (token_create(TOKEN_WORD, ft_strdup("")));
+	}
 	pos = lexer->pos;
 	word = get_quoted_content(lexer, quote_type, &pos);
 	if (!word)
@@ -116,9 +101,11 @@ t_token	*handle_quote(t_lexer *lexer, char quote_type)
 	lexer->pos = pos + 1;
 	if (quote_type == '"' && ft_strchr(word, '$'))
 	{
+		if (word[0] == '$' && !word[1])
+			return (token_create(TOKEN_WORD, word));
 		expanded = expand_shell_vars(word, lexer->env);
 		free(word);
-		word = expanded;
+		return (token_create(TOKEN_WORD, expanded));
 	}
 	return (token_create(TOKEN_WORD, word));
 }
