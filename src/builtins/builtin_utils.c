@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 21:09:56 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/18 13:19:46 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:10:04 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,41 @@ int	handle_builtin(char **args, char **env)
 	if (!ft_strcmp(args[0], "export"))
 		return (ft_export(args, env));
 	return (1);
+}
+
+int	is_valid_identifier(const char *str)
+{
+	int	i;
+
+	if (!str || !*str || (!ft_isalpha(*str) && *str != '_'))
+		return (0);
+	i = 1;
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	find_env_var(char **env, const char *name)
+{
+	int	i;
+	int	len;
+
+	if (!env || !name)
+		return (-1);
+	len = 0;
+	while (name[len] && name[len] != '=')
+		len++;
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], name, len) == 0 && (env[i][len] == '='
+				|| env[i][len] == '\0'))
+			return (i);
+		i++;
+	}
+	return (-1);
 }

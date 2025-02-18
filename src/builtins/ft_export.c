@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:20:00 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/18 13:15:37 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:09:18 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,66 +14,12 @@
 
 static char	*get_var_name(const char *str)
 {
-	int		i;
-	char	*name;
+	int	i;
 
 	i = 0;
 	while (str[i] && str[i] != '=')
 		i++;
-	name = ft_substr(str, 0, i);
-	return (name);
-}
-
-int	find_env_var(char **env, const char *name)
-{
-	int	i;
-	int	len;
-
-	len = 0;
-	while (name[len] && name[len] != '=')
-		len++;
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], name, len) == 0 && (env[i][len] == '='
-				|| env[i][len] == '\0'))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-static int	is_valid_name(const char *name)
-{
-	int	i;
-
-	if (!name || !*name || (!ft_isalpha(*name) && *name != '_'))
-		return (0);
-	i = 1;
-	while (name[i])
-	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-static int	is_valid_assignment(const char *str)
-{
-	char	*name;
-	char	*equals;
-	int		valid;
-
-	equals = ft_strchr(str, '=');
-	if (!equals)
-		return (1); // Just a name without assignment is valid
-	name = get_var_name(str);
-	if (!name)
-		return (0);
-	valid = is_valid_name(name);
-	free(name);
-	return (valid);
+	return (ft_substr(str, 0, i));
 }
 
 static int	update_env_var(char **env, char *new_var)
@@ -121,7 +67,7 @@ int	ft_export(char **args, char **env)
 	i = 1;
 	while (args[i])
 	{
-		if (!is_valid_assignment(args[i]))
+		if (!is_valid_identifier(args[i]))
 		{
 			ft_putstr_fd("export: `", 2);
 			ft_putstr_fd(args[i], 2);

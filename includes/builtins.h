@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:51:31 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/18 11:42:11 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:10:27 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		ft_export(char **args, char **env);
 // export utils
 int		is_valid_identifier(const char *str);
 int		find_env_var(char **env, const char *var);
+int		find_env_var(char **env, const char *name);
 void	print_sorted_env(char **env);
 int		get_env_size(char **env);
 

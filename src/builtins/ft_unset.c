@@ -6,32 +6,14 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:22:12 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/18 13:11:17 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:08:31 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_valid_name(char *str)
-{
-	int	i;
-
-	if (!str || !*str || (!ft_isalpha(*str) && *str != '_'))
-		return (0);
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 static void	remove_env_var(char **env, int index)
 {
-	if (!env[index])
-		return ;
 	free(env[index]);
 	while (env[index + 1])
 	{
@@ -41,23 +23,19 @@ static void	remove_env_var(char **env, int index)
 	env[index] = NULL;
 }
 
-static int	find_var_index(char **env, const char *var)
+static int	is_system_var(const char *name)
 {
-	int	i;
-	int	len;
+	static const char	*system_vars[] = {"HOME", "PATH", "SHELL", NULL};
+	int					i;
 
-	if (!var || !env)
-		return (-1);
-	len = ft_strlen(var);
 	i = 0;
-	while (env[i])
+	while (system_vars[i])
 	{
-		if (!ft_strncmp(env[i], var, len) && (env[i][len] == '='
-				|| !env[i][len]))
-			return (i);
+		if (!ft_strcmp(name, system_vars[i]))
+			return (1);
 		i++;
 	}
-	return (-1);
+	return (0);
 }
 
 int	ft_unset(char **args, char **env)
@@ -72,16 +50,16 @@ int	ft_unset(char **args, char **env)
 	i = 1;
 	while (args[i])
 	{
-		if (!is_valid_name(args[i]))
+		if (!is_valid_identifier(args[i]))
 		{
 			ft_putstr_fd("unset: `", 2);
 			ft_putstr_fd(args[i], 2);
 			ft_putendl_fd("': not a valid identifier", 2);
 			ret = 1;
 		}
-		else
+		else if (!is_system_var(args[i]))
 		{
-			var_index = find_var_index(env, args[i]);
+			var_index = find_env_var(env, args[i]);
 			if (var_index >= 0)
 				remove_env_var(env, var_index);
 		}

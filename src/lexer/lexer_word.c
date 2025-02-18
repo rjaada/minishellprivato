@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:26:22 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/18 13:15:33 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:05:52 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static int	process_quote_content(t_lexer *lexer, char quote_type, int *pos,
 	escaped = 0;
 	while (*pos < lexer->len)
 	{
+		if (!escaped && lexer->input[*pos] == quote_type)
+			break ;
 		if (!escaped && lexer->input[*pos] == '\\' && quote_type == '"')
 		{
 			escaped = 1;
 			(*pos)++;
 			continue ;
 		}
-		if (!escaped && lexer->input[*pos] == quote_type)
-			break ;
 		escaped = 0;
 		(*length)++;
 		(*pos)++;
@@ -43,24 +43,15 @@ static int	process_quote_content(t_lexer *lexer, char quote_type, int *pos,
 static char	*fill_quoted_content(t_lexer *lexer, int start, int *pos, int len)
 {
 	char	*content;
-	int		escaped;
 	int		i;
 
 	content = malloc(sizeof(char) * (len + 1));
 	if (!content)
 		return (NULL);
-	escaped = 0;
 	i = 0;
 	while (start < *pos)
 	{
-		if (!escaped && lexer->input[start] == '\\')
-		{
-			escaped = 1;
-			start++;
-			continue ;
-		}
 		content[i++] = lexer->input[start++];
-		escaped = 0;
 	}
 	content[i] = '\0';
 	return (content);
@@ -77,41 +68,27 @@ static char	*get_quoted_content(t_lexer *lexer, char quote_type, int *pos)
 	return (fill_quoted_content(lexer, start, pos, len));
 }
 
-static char	*check_next_quote(t_lexer *lexer, char *current_word)
+static char	*handle_empty_quotes(t_lexer *lexer, char quote_type)
 {
-	int		next_pos;
-	char	*quoted_part;
-	char	*result;
-	char	quote_type;
-
-	next_pos = lexer->pos;
-	if (next_pos >= lexer->len || (lexer->input[next_pos] != '"'
-			&& lexer->input[next_pos] != '\''))
-		return (current_word);
-	quote_type = lexer->input[next_pos];
-	lexer->pos++;
-	next_pos = lexer->pos;
-	quoted_part = get_quoted_content(lexer, quote_type, &next_pos);
-	if (!quoted_part)
+	if (lexer->input[lexer->pos] == quote_type && lexer->input[lexer->pos
+		+ 1] == quote_type)
 	{
-		free(current_word);
-		return (NULL);
+		lexer->pos += 2;
+		return (ft_strdup(""));
 	}
-	result = ft_strjoin(current_word, quoted_part);
-	free(current_word);
-	free(quoted_part);
-	lexer->pos = next_pos + 1;
-	return (result);
+	return (NULL);
 }
 
 t_token	*handle_quote(t_lexer *lexer, char quote_type)
 {
 	char	*word;
 	char	*expanded;
-	char	*result;
 	int		pos;
 
 	lexer->pos++;
+	word = handle_empty_quotes(lexer, quote_type);
+	if (word)
+		return (token_create(TOKEN_WORD, word));
 	pos = lexer->pos;
 	word = get_quoted_content(lexer, quote_type, &pos);
 	if (!word)
@@ -120,41 +97,34 @@ t_token	*handle_quote(t_lexer *lexer, char quote_type)
 		return (NULL);
 	}
 	lexer->pos = pos + 1;
-	result = check_next_quote(lexer, word);
-	if (!result)
-		return (NULL);
-	if (quote_type == '"')
+	if (quote_type == '"' && ft_strchr(word, '$'))
 	{
-		expanded = expand_shell_vars(result, lexer->env);
-		free(result);
+		expanded = expand_shell_vars(word, lexer->env);
+		free(word);
 		return (token_create(TOKEN_WORD, expanded));
 	}
-	return (token_create(TOKEN_WORD, result));
+	return (token_create(TOKEN_WORD, word));
 }
 
 t_token	*handle_word(t_lexer *lexer)
 {
 	int		start;
 	char	*word;
-	int		len;
 	char	*expanded;
-	char	*final_word;
 
 	start = lexer->pos;
 	while (lexer->pos < lexer->len && is_word_char(lexer->input[lexer->pos]))
 		lexer->pos++;
-	len = lexer->pos - start;
-	word = ft_substr(lexer->input, start, len);
+	word = ft_substr(lexer->input, start, lexer->pos - start);
 	if (!word)
 		return (NULL);
-	final_word = check_next_quote(lexer, word);
-	if (!final_word)
-		return (NULL);
-	if (ft_strchr(final_word, '$'))
+	if (word[0] == '$' && !word[1])
+		return (token_create(TOKEN_WORD, word));
+	if (ft_strchr(word, '$'))
 	{
-		expanded = expand_shell_vars(final_word, lexer->env);
-		free(final_word);
+		expanded = expand_shell_vars(word, lexer->env);
+		free(word);
 		return (token_create(TOKEN_WORD, expanded));
 	}
-	return (token_create(TOKEN_WORD, final_word));
+	return (token_create(TOKEN_WORD, word));
 }
