@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 20:18:38 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/18 11:55:19 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:41:43 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	ft_lstclear(t_list_token **lst, void (*del)(void *))
 	}
 	*lst = NULL;
 }
+
 void	ft_lstdelone(t_list_token *lst, void (*del)(void *))
 {
 	if (!lst || !del)
@@ -59,6 +60,7 @@ void	ft_lstdelone(t_list_token *lst, void (*del)(void *))
 	del(lst->token);
 	free(lst);
 }
+
 void	ft_lstiter(t_list_token *lst, void (*f)(void *))
 {
 	t_list_token	*temp;
@@ -72,6 +74,7 @@ void	ft_lstiter(t_list_token *lst, void (*f)(void *))
 		temp = temp->next;
 	}
 }
+
 t_list_token	*ft_lstnew(void *content)
 {
 	t_list_token	*new_node;
@@ -83,6 +86,7 @@ t_list_token	*ft_lstnew(void *content)
 	new_node->next = NULL;
 	return (new_node);
 }
+
 int	ft_lstsize(t_list_token *lst)
 {
 	int	i;
@@ -95,6 +99,7 @@ int	ft_lstsize(t_list_token *lst)
 	}
 	return (i);
 }
+
 t_list_token	*ft_lstlast(t_list_token *lst)
 {
 	if (!lst)

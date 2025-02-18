@@ -1,72 +1,92 @@
 #include "minishell.h"
 #include "parsing.h"
 
-void print_escaped(FILE *stream, const char *str)
+void	print_escaped(FILE *stream, const char *str)
 {
-    if (!str) return;
-    while (*str)
+	if (!str)
+		return ;
+	while (*str)
 	{
-        switch (*str)
+		switch (*str)
 		{
-            case '\n': fprintf(stream, "\\n"); break;
-            case '\"': fprintf(stream, "\\\""); break;
-            case '\\': fprintf(stream, "\\\\"); break;
-            default: fputc(*str, stream);
-        }
-        str++;
-    }
+		case '\n':
+			fprintf(stream, "\\n");
+			break ;
+		case '\"':
+			fprintf(stream, "\\\"");
+			break ;
+		case '\\':
+			fprintf(stream, "\\\\");
+			break ;
+		default:
+			fputc(*str, stream);
+		}
+		str++;
+	}
 }
 
-void print_ast_dot(t_ast *node, FILE *stream)
+void	print_ast_dot(t_ast *node, FILE *stream)
 {
-    if (node == NULL) return;
-
-    fprintf(stream, "\"%p\" [label=\"", (void*)node);
-    // Print node type
-    switch (node->type)
+	if (node == NULL)
+		return ;
+	fprintf(stream, "\"%p\" [label=\"", (void *)node);
+	// Print node type
+	switch (node->type)
 	{
-        // Adjust these labels based on your specific types and what they represent
-        case CMD: fprintf(stream, "CMD: "); break;
-        case TOKEN_REDIR_IN:
-        case TOKEN_REDIR_OUT:
-        //case TOKEN_REDIR_APPEND:
-        case HEREDOC: fprintf(stream, "REDIR: "); break;
-        case TOKEN_PIPE: fprintf(stream, "|"); break;
-        default: fprintf(stream, "UNKNOWN"); break;
-    }
-    // Print all arguments for the node
-    if (node->value)
+	// Adjust these labels based on your specific types and what they represent
+	case CMD:
+		fprintf(stream, "CMD: ");
+		break ;
+	case TOKEN_REDIR_IN:
+	case TOKEN_REDIR_OUT:
+	// case TOKEN_REDIR_APPEND:
+	case HEREDOC:
+		fprintf(stream, "REDIR: ");
+		break ;
+	case TOKEN_PIPE:
+		fprintf(stream, "|");
+		break ;
+	default:
+		fprintf(stream, "UNKNOWN");
+		break ;
+	}
+	// Print all arguments for the node
+	if (node->value)
 	{
-        for (int i = 0; node->value[i] != NULL; i++)
+		for (int i = 0; node->value[i] != NULL; i++)
 		{
-            if (i > 0) fprintf(stream, " "); // Add space between arguments
-            print_escaped(stream, node->value[i]);
-        }
-    }
-    fprintf(stream, "\"];\n");
-    if (node->left != NULL)
+			if (i > 0)
+				fprintf(stream, " "); // Add space between arguments
+			print_escaped(stream, node->value[i]);
+		}
+	}
+	fprintf(stream, "\"];\n");
+	if (node->left != NULL)
 	{
-        fprintf(stream, "\"%p\" -> \"%p\" [label=\"L\"];\n", (void*)node, (void*)node->left);
-        print_ast_dot(node->left, stream);
-    }
-    if (node->right != NULL)
+		fprintf(stream, "\"%p\" -> \"%p\" [label=\"L\"];\n", (void *)node,
+			(void *)node->left);
+		print_ast_dot(node->left, stream);
+	}
+	if (node->right != NULL)
 	{
-        fprintf(stream, "\"%p\" -> \"%p\" [label=\"R\"];\n", (void*)node, (void*)node->right);
-        print_ast_dot(node->right, stream);
-    }
+		fprintf(stream, "\"%p\" -> \"%p\" [label=\"R\"];\n", (void *)node,
+			(void *)node->right);
+		print_ast_dot(node->right, stream);
+	}
 }
 
-void generate_ast_diagram(t_ast *root)
+void	generate_ast_diagram(t_ast *root)
 {
-    FILE *stream = fopen("ast.dot", "w");
-    if (stream == NULL)
-	{
-        perror("fopen");
-        return;
-    }
+	FILE	*stream;
 
-    fprintf(stream, "digraph AST {\n");
-    print_ast_dot(root, stream);
-    fprintf(stream, "}\n");
+	stream = fopen("ast.dot", "w");
+	if (stream == NULL)
+	{
+		perror("fopen");
+		return ;
+	}
+	fprintf(stream, "digraph AST {\n");
+	print_ast_dot(root, stream);
+	fprintf(stream, "}\n");
 	fclose(stream);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmoundir <kmoundir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:29:05 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/17 15:09:59 by kmoundir         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:42:17 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			g_exit_status;
 static int	process_input(char *input, char **env)
 {
 	t_list_token	*tokens;
-	char	**args;
+	char			**args;
 
 	if (syntax_error_checker(input))
 	{
@@ -46,23 +46,23 @@ static int	process_input(char *input, char **env)
 	ft_lstclear(&tokens, (void *)token_free);
 	return (0);
 }*/
-void print_token(t_list_token *lst)
+void	print_token(t_list_token *lst)
 {
-	while(lst)
+	while (lst)
 	{
-		printf("Token: %d\n",lst->token->type);
+		printf("Token: %d\n", lst->token->type);
 		lst = lst->next;
 	}
-	
 }
 int	main(int argc, char **argv, char **env)
 {
-	char	*input;
-	t_list_token *l_tokens;
-	t_ast *tree;
+	char			*input;
+	t_list_token	*l_tokens;
+	t_ast			*tree;
+
 	(void)argc;
 	(void)argv;
-	//print_banner();
+	// print_banner();
 	setup_signal_handlers();
 	g_exit_status = 0;
 	while (1)
@@ -72,34 +72,28 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		if (input && *input)
 			add_history(input);
-	/*	if (process_input(input, env))
-		{
-			free(input);
-			break ;
-		}*/
+		/*	if (process_input(input, env))
+			{
+				free(input);
+				break ;
+			}*/
 		/*** */
 		if (syntax_error_checker(input))
 		{
 			g_exit_status = 2;
 			return (g_exit_status);
 		}
-		
 		if (ft_strcmp(input, "exit") == 0)
-		return (1);
+			return (1);
 		l_tokens = tokenize_input(input, env);
-
 		if (!l_tokens)
-		return (0);
-	
-		//print_token(l_tokens);
-		l_tokens=tokenize_input(input, env);
-		
+			return (0);
+		// print_token(l_tokens);
+		l_tokens = tokenize_input(input, env);
 		tree = parsing_tokens(l_tokens);
 		generate_ast_diagram(tree);
-		g_exit_status=execute_ast(tree,env);
+		g_exit_status = execute_ast(tree, env);
 		free(input);
 	}
 	return (g_exit_status);
 }
-
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmoundir <kmoundir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:37:05 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/17 15:09:07 by kmoundir         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:40:42 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,12 @@ t_ast	*parsing_tokens(t_list_token *l_tokens)
 			else
 				current->left = cmd_node;
 			current = cmd_node;
-           // parssing_cmd(l_tokens,root, current);
+			// parssing_cmd(l_tokens,root, current);
 			if (!l_tokens)
 				break ;
 		}
 		else if (l_tokens->token->type == TOKEN_PIPE)
 		{
-		
 			pipe_node = new_ast_node(PIPE, NULL);
 			pipe_node->left = root;
 			current = pipe_node;
@@ -71,9 +70,11 @@ t_ast	*parsing_tokens(t_list_token *l_tokens)
 			l_tokens = l_tokens->next;
 		}
 		else if (l_tokens->token->type == TOKEN_REDIR_IN
-			|| l_tokens->token->type == TOKEN_REDIR_OUT || l_tokens->token->type == TOKEN_APPEND)
+			|| l_tokens->token->type == TOKEN_REDIR_OUT
+			|| l_tokens->token->type == TOKEN_APPEND)
 		{
-			if(!l_tokens->next || !l_tokens->next->token || l_tokens->next->token->type != TOKEN_WORD)
+			if (!l_tokens->next || !l_tokens->next->token
+				|| l_tokens->next->token->type != TOKEN_WORD)
 			{
 				ft_putstr_fd("Minishell:parse error near `\\n'\n", 2);
 				return (NULL);
@@ -88,7 +89,7 @@ t_ast	*parsing_tokens(t_list_token *l_tokens)
 				red = new_ast_node(REDIR_OUT, NULL);
 				red->right = root;
 			}
-			else if(l_tokens->token->type == TOKEN_APPEND)
+			else if (l_tokens->token->type == TOKEN_APPEND)
 			{
 				red = new_ast_node(APPEND, NULL);
 				red->right = root;
