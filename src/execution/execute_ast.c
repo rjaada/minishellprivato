@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kmoundir <kmoundir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:41:59 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/18 13:18:27 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/19 15:29:54 by kmoundir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,9 @@ int	execute_ast(t_ast *ast, char **env)
 		return (0);
 	if (ast->type == CMD)
 	{
-		/* if (is_builtin(ast->value[0]))
-						{g_exit_status = execute_builtin(ast->value,
-								env);//handle_builtin(ast->value[0], env);
-				// printf("exit status %d\n",g_exit_status);
-				return ((g_exit_status));
-				}*/
-		// execute_command(ast->value,env);
 		if (is_builtin(ast->value[0]))
 		{
 			g_exit_status = handle_builtin(ast->value, env);
-			// printf("exit status %d\n",g_exit_status);
 			return (g_exit_status);
 		}
 		else
@@ -41,24 +33,38 @@ int	execute_ast(t_ast *ast, char **env)
 				exit(127);
 			}
 		}
-		// free_args_array(args);
+	
 	}
 	else if (ast->type == PIPE)
 	{
 		return (setup_pipes(ast, env));
 	}
-	else if (ast->type == REDIR_IN || ast->type == REDIR_OUT
-		|| ast->type == APPEND)
+	else if (ast->type == REDIR_OUT
+		|| ast->type == APPEND )
 	{
-		redirection_setup(ast, env);
-		//  if(ast->type == REDIR_IN)
-		//{
-		// red_in(ast->left->value[0]);
-		//}
-		// if(ast->type == REDIR_OUT)
-		//{
-		// red_out(ast->left->value[0]);
-		//}
+		redirection_setup(ast, env);}
+     else if(ast->type == REDIR_IN)
+	{
+		
+			//redirection_setup(ast, env);
+			if (red_in(ast->left->value[0]) != 0)
+			{
+				g_exit_status = 1;
+				return (1);
+			}
+		// Asegurar que los argumentos adicionales siguen existiendo
+		execute_ast(ast->right, env);
+		/*else
+		{
+			g_exit_status = handle_builtin(ast->right->value, env);
+		}
+		if (red_in(ast->left->value[0]) != 0)
+		{
+			g_exit_status = 1;
+			return (1);
+		}
+		// Asegurar que los argumentos adicionales siguen existiendo
+		execute_ast(ast->right, env);*/
 	}
 	else
 	{

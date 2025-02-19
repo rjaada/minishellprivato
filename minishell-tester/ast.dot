@@ -1,0 +1,3 @@
+digraph AST {
+"0x5e57f44c6420" [label="CMD: cd ../minishell_tester/"];
+}
