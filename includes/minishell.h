@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:02:40 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/18 13:20:56 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/19 16:18:02 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,12 @@ void					free_args_array(char **args, int count);
 int						execute_command(char **args, char **env);
 void					free_array(char **arr);
 char					*find_command_path(char *cmd, char **env);
-
 void					generate_ast_diagram(t_ast *root);
+
+/* Execution utils */
+void	print_exec_error(char *cmd, char *msg);
+int		check_file_errors(char *cmd);
+int		handle_exec(char *cmd_path, char **args, char **env);
+char	**skip_empty_args(char **args);
 
 #endif

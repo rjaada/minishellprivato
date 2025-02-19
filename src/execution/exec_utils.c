@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmoundir <kmoundir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 01:23:55 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/16 12:15:45 by kmoundir         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:17:22 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/stat.h>
+#include <sys/types.h>
 
 void	free_array(char **arr)
 {
@@ -24,36 +26,67 @@ void	free_array(char **arr)
 	free(arr);
 }
 
-static void	exec_error(char *cmd)
+void	print_exec_error(char *cmd, char *msg)
 {
-	(void)cmd;
-	ft_putstr_fd(" command not found\n", 2);
-	//ft_putendl_fd(cmd, 2);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putendl_fd(msg, 2);
 }
 
-static void	child_process(char *cmd_path, char **args, char **env)
+int	check_file_errors(char *cmd)
 {
-	execve(cmd_path, args, env);
+	struct stat	st;
+
+	if (!cmd || !*cmd)
+		return (0);
+	if (stat(cmd, &st) == 0)
+	{
+		if (S_ISDIR(st.st_mode))
+		{
+			print_exec_error(cmd, ": Is a directory");
+			return (126);
+		}
+		if (access(cmd, X_OK) != 0)
+		{
+			print_exec_error(cmd, ": Permission denied");
+			return (126);
+		}
+		return (0);
+	}
+	print_exec_error(cmd, ": No such file or directory");
+	return (127);
 }
 
-int	execute_command(char **args, char **env)
+int	handle_exec(char *cmd_path, char **args, char **env)
 {
 	pid_t	pid;
 	int		status;
-	char	*cmd_path;
 
-	cmd_path = find_command_path(args[0], env);
-	if (!cmd_path)
-	{
-		exec_error(args[0]);
-		g_exit_status = 127;
-		return (g_exit_status);
-	}
 	pid = fork();
 	if (pid == 0)
-		child_process(cmd_path, args, env);
+	{
+		if (execve(cmd_path, args, env) == -1)
+			exit(127);
+	}
 	waitpid(pid, &status, 0);
-	free(cmd_path);
-	g_exit_status = WEXITSTATUS(status);//prohibida en 42
-	return (g_exit_status);
+	return ((status >> 8) & 0xFF);
+}
+
+char	**skip_empty_args(char **args)
+{
+	int	i;
+	int	j;
+
+	if (!args || !args[0])
+		return (args);
+	i = 0;
+	j = 0;
+	while (args[i])
+	{
+		if (args[i][0] != '\0')
+			args[j++] = args[i];
+		i++;
+	}
+	args[j] = NULL;
+	return (args);
 }
