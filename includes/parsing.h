@@ -6,7 +6,7 @@
 /*   By: kmoundir <kmoundir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 12:26:00 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/16 13:45:36 by kmoundir         ###   ########.fr       */
+/*   Updated: 2025/02/22 10:29:38 by kmoundir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef enum e_type_node
 {
 	CMD,
 	PIPE,
+	FILENAME,
 	REDIR_IN,
 	REDIR_OUT,
 	APPEND,
@@ -64,5 +65,7 @@ char					*find_command_path(char *cmd, char **env);
 //**************** */
 
 void generate_ast_diagram(t_ast *root);
+t_ast *get_args_redirection(t_ast *node , t_list_token *l_tokens);
+t_ast	*new_ast_node(t_type_node type, char **value);
 
 #endif

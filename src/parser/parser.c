@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kmoundir <kmoundir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:37:05 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/18 15:40:42 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/22 13:17:23 by kmoundir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,26 @@ t_ast	*parsing_tokens(t_list_token *l_tokens)
 			}
 			if (l_tokens->token->type == TOKEN_REDIR_IN)
 			{
+				if (root && root->type == CMD && root->value && is_builtin(root->value[0]))
+				{
+					l_tokens = l_tokens->next->next;
+					root = get_args_redirection(root ,l_tokens);
+					l_tokens = move_to_operator(l_tokens);
+				continue;
+					
+				}
+				else{
+					
+					
 				red = new_ast_node(REDIR_IN, NULL);
-				red->left = root;
+				t_ast *file_node = new_ast_node(FILENAME,get_args_tokens(l_tokens->next));
+					if (!file_node)
+						return NULL;
+		
+					// Attach the file node as the left child of the redirection node
+					red->left = file_node;	
+				    red->left = root;
+				}
 			}
 			else if (l_tokens->token->type == TOKEN_REDIR_OUT)
 			{

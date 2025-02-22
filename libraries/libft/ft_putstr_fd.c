@@ -6,13 +6,13 @@
 /*   By: kmoundir <kmoundir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 10:48:23 by kmoundir          #+#    #+#             */
-/*   Updated: 2024/10/04 23:04:03 by kmoundir         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:07:32 by kmoundir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd( char *s, int fd)
 {
 	if (s == NULL)
 		return ;

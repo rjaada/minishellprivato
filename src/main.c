@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kmoundir <kmoundir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:29:05 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/18 15:42:17 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/22 14:12:24 by kmoundir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,12 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		if (input && *input)
 			add_history(input);
-		/*	if (process_input(input, env))
-			{
-				free(input);
-				break ;
-			}*/
-		/*** */
-		if (syntax_error_checker(input))
+		/*if (syntax_error_checker(input))
 		{
-			g_exit_status = 2;
-			return (g_exit_status);
-		}
+			
+		//	g_exit_status = 2;
+		//	return (g_exit_status);
+		}*/
 		if (ft_strcmp(input, "exit") == 0)
 			return (1);
 		l_tokens = tokenize_input(input, env);

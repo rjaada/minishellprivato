@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kmoundir <kmoundir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 01:23:23 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/19 16:12:54 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/22 13:54:12 by kmoundir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ int	execute_command(char **args, char **env)
 	status = handle_exec(cmd_path, args, env);
 	if (cmd_path != args[0])
 		free(cmd_path);
+ printf("\n");
 	return (status);
 }
