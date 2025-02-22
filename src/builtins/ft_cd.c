@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:50:37 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:19:59 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 00:31:48 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,8 @@ static int	check_args(char **args)
 static void	print_cd_error(char *path)
 {
 	ft_putstr_fd("cd: ", 2);
-	ft_putstr_fd(strerror(errno), 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(path, 2);
-	ft_putstr_fd("\n", 2);
+    ft_putstr_fd(path, 2);
+    ft_putstr_fd(": No such file or directory\n", 2);
 }
 
 int	ft_cd(char **args)

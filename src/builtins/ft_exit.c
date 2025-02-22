@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:20:57 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:20:04 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 00:32:05 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,15 @@ int	ft_exit(char **args)
 {
 	int	exit_code;
 
-	ft_putendl_fd("exit", 2);
+	// Only print 'exit' if there's an error or in interactive mode
 	if (!args[1])
+	{
+		ft_putendl_fd("exit", 2);
 		exit(0);
+	}
 	if (!parse_exit_arg(args[1], &exit_code))
 	{
+		ft_putendl_fd("exit", 2); // Print exit before error
 		ft_putstr_fd("exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);
@@ -97,8 +101,9 @@ int	ft_exit(char **args)
 	}
 	if (args[2])
 	{
+		ft_putendl_fd("exit", 2); // Print exit before error
 		ft_putendl_fd("exit: too many arguments", 2);
 		return (1);
 	}
-	exit(exit_code);
+	exit(exit_code); // Don't print exit for normal numeric exit
 }

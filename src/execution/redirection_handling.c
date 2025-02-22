@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:09:25 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:24:16 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 00:32:27 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,9 @@ void	redirection_setup(t_ast *ast, char **env)
 void	redirection_error(void)
 {
 	g_exit_status = 1;
-	perror("Error redirection");
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
 }
 #include "minishell.h"
 
