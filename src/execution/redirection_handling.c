@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:09:25 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:32:27 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 00:49:30 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,8 @@ void	redirection_setup(t_ast *ast, char **env)
 }*/
 void	redirection_error(void)
 {
-	g_exit_status = 1;
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(strerror(errno), 2);
-	ft_putstr_fd("\n", 2);
+	g_exit_status = 1; // Ensure we return 1 instead of other error codes
+	perror("minishell");
 }
 #include "minishell.h"
 
@@ -100,9 +98,9 @@ int	red_in(char *file_name)
 
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
-		return (perror("Error input file"), -1);
+		return (1); // Change -1 to 1 to match bash
 	if (dup2(fd, STDIN_FILENO) == -1)
-		return (perror("Error redirecting stdin"), close(fd), -1);
+		return (1); // Change -1 to 1 to match bash
 	close(fd);
 	return (0);
 }
