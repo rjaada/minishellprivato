@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmoundir <kmoundir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:29:05 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/22 14:12:24 by kmoundir         ###   ########.fr       */
+/*   Updated: 2025/02/23 00:25:29 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	main(int argc, char **argv, char **env)
 			add_history(input);
 		/*if (syntax_error_checker(input))
 		{
-			
 		//	g_exit_status = 2;
 		//	return (g_exit_status);
 		}*/
