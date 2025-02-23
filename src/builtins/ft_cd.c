@@ -6,17 +6,9 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:50:37 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:31:48 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:06:50 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
-
-/*
-//todo
-we can take different inputs in theman unset future
-we  use  getcwd, chdir, and make our (setenv) function
-*/
 
 #include "minishell.h"
 
@@ -55,8 +47,8 @@ static int	check_args(char **args)
 static void	print_cd_error(char *path)
 {
 	ft_putstr_fd("cd: ", 2);
-    ft_putstr_fd(path, 2);
-    ft_putstr_fd(": No such file or directory\n", 2);
+	ft_putstr_fd(path, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
 }
 
 int	ft_cd(char **args)

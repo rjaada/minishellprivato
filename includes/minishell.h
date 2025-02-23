@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:02:40 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:19:48 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:53:38 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ int						has_invalid_redirections(const char *input);
 int						has_misplaced_operators(const char *input);
 int						has_logical_operators(const char *input);
 void					update_quote_counts(char c, int *s_q, int *d_q);
-int						is_invalid_operator(const char **input);
 
 /* String utils */
 char					*str_join_char(char *str, char c);

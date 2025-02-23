@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:08:12 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/23 00:24:49 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 19:46:06 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 char	*join_chars(char *str, char c)
 {
-	// char	*temp;
-	// temp = str;
 	str = str_join_char(str, c);
-	// free(temp);
 	return (str);
 }
 

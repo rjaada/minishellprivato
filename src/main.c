@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:29:05 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/23 00:25:29 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 22:00:50 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,54 +15,58 @@
 #include "minishell.h"
 
 int			g_exit_status;
-/*
+
+static void	cleanup_resources(char *input, t_list_token *tokens)
+{
+	ft_lstclear(&tokens, (void *)token_free);
+	free(input);
+}
+
+static int	handle_exit_command(char *input)
+{
+	if (ft_strcmp(input, "exit") == 0)
+	{
+		free(input);
+		return (1);
+	}
+	return (0);
+}
+
 static int	process_input(char *input, char **env)
 {
-	t_list_token	*tokens;
-	char			**args;
+	t_list_token	*l_tokens;
+	t_ast			*tree;
 
 	if (syntax_error_checker(input))
 	{
 		g_exit_status = 2;
+		free(input);
 		return (0);
 	}
-	if (ft_strcmp(input, "exit") == 0)
-		return (1);
-	tokens = tokenize_input(input, env);
-	if (!tokens)
+	l_tokens = tokenize_input(input, env);
+	if (!l_tokens)
+	{
+		free(input);
 		return (0);
-	if (((t_token *)tokens->token)->type == TOKEN_WORD)
-	{
-		args = create_args_array(tokens);
-		if (args)
-		{
-			if (is_builtin(args[0]))
-				g_exit_status = handle_builtin(tokens, env);
-			else
-				g_exit_status = execute_command(args, env);
-			free_args_array(args);
-		}
 	}
-	ft_lstclear(&tokens, (void *)token_free);
-	return (0);
-}*/
-void	print_token(t_list_token *lst)
-{
-	while (lst)
+	tree = parsing_tokens(l_tokens);
+	if (!tree)
 	{
-		printf("Token: %d\n", lst->token->type);
-		lst = lst->next;
+		cleanup_resources(input, l_tokens);
+		return (0);
 	}
+	g_exit_status = execute_ast(tree, env);
+	cleanup_resources(input, l_tokens);
+	return (1);
 }
+
 int	main(int argc, char **argv, char **env)
 {
-	char			*input;
-	t_list_token	*l_tokens;
-	t_ast			*tree;
+	char	*input;
 
 	(void)argc;
 	(void)argv;
-	// print_banner();
+	print_banner();
 	setup_signal_handlers();
 	g_exit_status = 0;
 	while (1)
@@ -72,22 +76,9 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		if (input && *input)
 			add_history(input);
-		/*if (syntax_error_checker(input))
-		{
-		//	g_exit_status = 2;
-		//	return (g_exit_status);
-		}*/
-		if (ft_strcmp(input, "exit") == 0)
+		if (handle_exit_command(input))
 			return (1);
-		l_tokens = tokenize_input(input, env);
-		if (!l_tokens)
-			return (0);
-		// print_token(l_tokens);
-		l_tokens = tokenize_input(input, env);
-		tree = parsing_tokens(l_tokens);
-		generate_ast_diagram(tree);
-		g_exit_status = execute_ast(tree, env);
-		free(input);
+		process_input(input, env);
 	}
 	return (g_exit_status);
 }

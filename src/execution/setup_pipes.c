@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:37:41 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:24:34 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:58:14 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,10 @@ int	setup_pipes(t_ast *node, char **env)
 		return (1);
 	}
 	return ((status2 >> 8) & 0xFF);
+}
+
+void	redirection_error(void)
+{
+	g_exit_status = 1;
+	perror("minishell");
 }

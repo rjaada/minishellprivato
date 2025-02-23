@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 13:05:50 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/23 00:25:06 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 19:45:24 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_list_token	*create_token_node(void *content)
 
 	token = (t_token *)content;
 	node = ft_lstnew(token);
-	// free(token);
 	return (node);
 }
 
@@ -52,9 +51,16 @@ t_list_token	*tokenize_input(char *input, char **env)
 	{
 		current_token = lexer_get_next_token(lexer);
 		if (!current_token)
-			break ;
+		{
+			ft_lstclear(&token_list, (void *)token_free);
+			lexer_free(lexer);
+			return (NULL);
+		}
 		if (!handle_token_node(current_token, &token_list))
-			break ;
+		{
+			lexer_free(lexer);
+			return (NULL);
+		}
 		if (current_token->type == TOKEN_EOF)
 			break ;
 	}

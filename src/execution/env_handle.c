@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:15:57 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:20:18 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:06:12 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**create_env_array(char **envp)
 
 void	free_env_array(char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!env)

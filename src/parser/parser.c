@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:37:05 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:25:10 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 19:44:17 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_ast	*new_ast_node(t_type_node type, char **value)
 	node->right = NULL;
 	return (node);
 }
+
 static t_list_token	*move_to_operator(t_list_token *l_tokens)
 {
 	while (l_tokens->token->type == TOKEN_WORD && l_tokens && l_tokens->token)
@@ -34,11 +35,12 @@ static t_list_token	*move_to_operator(t_list_token *l_tokens)
 
 t_ast	*parsing_tokens(t_list_token *l_tokens)
 {
-	t_ast *root;
-	t_ast *current;
-	t_ast *cmd_node;
-	t_ast *pipe_node;
-	t_ast *red;
+	t_ast	*root;
+	t_ast	*current;
+	t_ast	*cmd_node;
+	t_ast	*pipe_node;
+	t_ast	*red;
+	t_ast	*file_node;
 
 	root = NULL;
 	current = NULL;
@@ -57,7 +59,6 @@ t_ast	*parsing_tokens(t_list_token *l_tokens)
 			else
 				current->left = cmd_node;
 			current = cmd_node;
-			// parssing_cmd(l_tokens,root, current);
 			if (!l_tokens)
 				break ;
 		}
@@ -92,12 +93,10 @@ t_ast	*parsing_tokens(t_list_token *l_tokens)
 				else
 				{
 					red = new_ast_node(REDIR_IN, NULL);
-					t_ast *file_node = new_ast_node(FILENAME,
+					file_node = new_ast_node(FILENAME,
 							get_args_tokens(l_tokens->next));
 					if (!file_node)
 						return (NULL);
-
-					// Attach the file node as the left child of the redirection node
 					red->left = file_node;
 					red->left = root;
 				}

@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 12:26:00 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:17:11 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 22:00:20 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void						generate_ast_diagram(t_ast *root);
 t_ast						*get_args_redirection(t_ast *node,
 								t_list_token *l_tokens);
 t_ast						*new_ast_node(t_type_node type, char **value);
+void						redirection_error(void);
 
 #endif

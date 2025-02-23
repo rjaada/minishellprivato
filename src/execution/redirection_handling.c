@@ -6,91 +6,11 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:09:25 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:49:30 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:58:25 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-int	red_in(char *file_name)
-{
-	int	fd;
-
-	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
-		return (perror("Error input file"), -1);
-	if (dup2(fd, STDIN_FILENO) == -1)
-		return(perror("Error redirecting stdin"), close(fd), -1);
-	close(fd);
-	return (0);
-}
-
-int	red_out(char *file_name)
-{
-	int	fd;
-
-	if(file_name == NULL)
-		return (1);
-	fd = open(file_name,O_RDWR | O_CREAT | O_TRUNC,0644);
-	if(fd == -1)
-		return(perror("Error ouput file"),1);
-	dup2(fd, STDOUT_FILENO);
-	if(fd == -1)
-		return(perror("Error ouput file"),close(fd),1);
-	close(fd);
-	return (0);
-}
-int	red_append(char *file_name)
-{
-	int	fd;
-
-	if(file_name == NULL)
-		return (1);
-	fd = open(file_name,O_RDWR | O_CREAT | O_APPEND,0644);
-	if(fd == -1)
-		return(perror("Error ouput file"),1);
-	dup2(fd, STDOUT_FILENO);
-	if(fd == -1)
-		return(perror("Error ouput file"),close(fd),1);
-	close(fd);
-	return (0);
-}
-
-void	redirection_setup(t_ast *ast, char **env)
-{
-	int	pid;
-
-	pid = fork();
-	if (pid == 0) {
-		if (ast->type == REDIR_IN && red_in(ast->left->value[0]) == 0)
-		{
-			if (ast->right->type == PIPE)
-				setup_pipes(ast->right, env);
-			else
-				execute_cmd(ast->right, env);
-		}
-		else if (ast->type == REDIR_OUT && red_out(ast->left->value[0]) == 0) {
-			if (ast->right->type == PIPE)
-				setup_pipes(ast->right, env);
-			else
-				execute_cmd(ast->right, env);
-		}
-		else if (ast->type == APPEND && red_append(ast->left->value[0]) == 0) {
-			if (ast->right->type == PIPE)
-				setup_pipes(ast->right, env);
-			else
-				execute_cmd(ast->right, env);
-		}
-		exit(0);
-	}
-	waitpid(pid, NULL, 0);
-}*/
-void	redirection_error(void)
-{
-	g_exit_status = 1; // Ensure we return 1 instead of other error codes
-	perror("minishell");
-}
-#include "minishell.h"
 
 int	red_in(char *file_name)
 {
@@ -98,9 +18,9 @@ int	red_in(char *file_name)
 
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
-		return (1); // Change -1 to 1 to match bash
+		return (1);
 	if (dup2(fd, STDIN_FILENO) == -1)
-		return (1); // Change -1 to 1 to match bash
+		return (1);
 	close(fd);
 	return (0);
 }
@@ -135,13 +55,11 @@ int	red_append(char *file_name)
 	return (0);
 }
 
-// Helper function to get the command node from the AST
 static t_ast	*get_command_node(t_ast *ast)
 {
 	t_ast	*cmd_node;
 
 	cmd_node = ast;
-	// Navigate through redirections to find the actual command
 	while (cmd_node && (cmd_node->type == REDIR_IN
 			|| cmd_node->type == REDIR_OUT || cmd_node->type == APPEND))
 	{
@@ -160,7 +78,6 @@ void	redirection_setup(t_ast *ast, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		// Set up all redirections first
 		current = ast;
 		while (current && (current->type == REDIR_IN
 				|| current->type == REDIR_OUT || current->type == APPEND))
@@ -170,7 +87,6 @@ void	redirection_setup(t_ast *ast, char **env)
 				if (red_in(current->left->value[0]) != 0)
 				{
 					g_exit_status = 1;
-					// exit(g_exit_status);
 					return (redirection_error());
 				}
 			}
@@ -192,7 +108,6 @@ void	redirection_setup(t_ast *ast, char **env)
 			}
 			current = current->right;
 		}
-		// Find and execute the actual command
 		cmd_node = get_command_node(ast);
 		if (cmd_node)
 		{
@@ -205,7 +120,7 @@ void	redirection_setup(t_ast *ast, char **env)
 				g_exit_status = execute_cmd(cmd_node, env);
 			}
 		}
-		exit(g_exit_status); // Exit if command execution fails
+		exit(g_exit_status);
 	}
 	else if (pid > 0)
 	{

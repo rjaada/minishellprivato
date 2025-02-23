@@ -6,14 +6,12 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:09:37 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:20:03 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:58:49 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// i should be crerate struct shell with env or use g_env
-// and add in struct shell fd_in and fd_out  to use it in ft_putstr_fd
 int	ft_env(char **arg, int fd, char **env)
 {
 	int	i;
@@ -29,4 +27,25 @@ int	ft_env(char **arg, int fd, char **env)
 	}
 	(void)arg;
 	return (1);
+}
+
+int	find_env_var(char **env, const char *name)
+{
+	int	i;
+	int	len;
+
+	if (!env || !name)
+		return (-1);
+	len = 0;
+	while (name[len] && name[len] != '=')
+		len++;
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], name, len) == 0 && (env[i][len] == '='
+			|| env[i][len] == '\0'))
+			return (i);
+		i++;
+	}
+	return (-1);
 }

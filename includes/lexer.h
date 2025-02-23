@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:14:30 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/23 00:19:46 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:51:38 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LEXER_H
 
 # include "minishell.h"
-typedef struct s_token		t_token;
+
 typedef struct s_list_token	t_list_token;
 
 typedef enum e_token_type
@@ -48,7 +48,6 @@ t_lexer						*lexer_init(char *input, char **env);
 void						lexer_free(t_lexer *lexer);
 t_token						*lexer_get_next_token(t_lexer *lexer);
 void						lexer_skip_spaces(t_lexer *lexer);
-t_list_token				*lexer_tokenize(t_lexer *lexer);
 
 /* Token handling */
 t_token						*token_create(t_token_type type, char *value);
@@ -71,5 +70,12 @@ char						*join_var_value(char *result, char *value);
 char						*join_chars(char *str, char c);
 int							has_unclosed_quotes(const char *input);
 int							check_redirection(const char **input);
+int							process_quote_content(t_lexer *lexer,
+								char quote_type, int *pos, int *length);
+char						*get_quoted_content(t_lexer *lexer, char quote_type,
+								int *pos);
+char						*merge_words(char *word1, char *word2);
+int							is_single_dollar(const char *str);
+char						*handle_special_chars(t_lexer *lexer, char *word);
 
 #endif

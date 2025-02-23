@@ -1,2 +1,0 @@
---github
-https://github.com/STC71/42_malaga/tree/main/minishell

@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 17:08:37 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/23 00:25:27 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 19:35:27 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@ char	*str_join_char(char *str, char c)
 {
 	char	*result;
 	int		len;
+	char	temp[2];
 
 	if (!str)
-		return (ft_strdup((char[]){c, '\0'}));
+	{
+		temp[0] = c;
+		temp[1] = '\0';
+		return (ft_strdup(temp));
+	}
 	len = ft_strlen(str);
 	result = safe_malloc(sizeof(char) * (len + 2));
 	if (!result)

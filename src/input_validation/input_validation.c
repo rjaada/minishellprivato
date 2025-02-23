@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 17:14:06 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/23 00:24:47 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 19:46:35 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,24 +102,22 @@ int	has_logical_operators(const char *input)
 
 int	syntax_error_checker(const char *input)
 {
+	const char	*last = input + ft_strlen(input) - 1;
+
 	if (has_unclosed_quotes(input))
+		return (0);
+	while (*input && ft_isspace(*input))
+		input++;
+	if (*input == '|')
 	{
-		ft_putstr_fd("Syntax error: unclosed quote\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
 		return (1);
 	}
-	if (has_invalid_redirections(input))
+	while (last > input && ft_isspace(*last))
+		last--;
+	if (*last == '|')
 	{
-		ft_putstr_fd("Syntax error: invalid redirection\n", STDERR_FILENO);
-		return (1);
-	}
-	if (has_misplaced_operators(input))
-	{
-		ft_putstr_fd("Syntax error: misplaced operator\n", STDERR_FILENO);
-		return (1);
-	}
-	if (has_logical_operators(input))
-	{
-		ft_putstr_fd("Error: Logical operators not supported\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
 		return (1);
 	}
 	return (0);

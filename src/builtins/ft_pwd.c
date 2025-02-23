@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:48:04 by kmoundir          #+#    #+#             */
-/*   Updated: 2025/02/23 00:20:14 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:18:28 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	pwd(int number_arg)
 {
 	char	*cwd;
 
-	(void)number_arg; // Add this line to fix unused parameter warning
+	(void)number_arg;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{

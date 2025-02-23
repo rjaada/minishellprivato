@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 01:23:55 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/23 00:53:35 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:05:59 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,10 @@ int	check_file_errors(char *cmd)
 
 	if (!cmd || !*cmd)
 		return (0);
-	// For absolute/relative paths, return 127 if file doesn't exist
 	if ((cmd[0] == '/' || cmd[0] == '.') && stat(cmd, &st) != 0)
 	{
 		print_exec_error(cmd, ": No such file or directory");
-		return (127); // Change from 1 to 127
+		return (127);
 	}
 	if (stat(cmd, &st) == 0)
 	{
@@ -59,7 +58,7 @@ int	check_file_errors(char *cmd)
 		}
 		return (0);
 	}
-	return (127); // Not found
+	return (127);
 }
 
 int	handle_exec(char *cmd_path, char **args, char **env)

@@ -22,6 +22,7 @@ SRC_FILES = main.c \
 		lexer/lexer_init.c \
 		lexer/lexer_token.c \
 		lexer/lexer_word.c \
+		lexer/lexer_word_utils.c \
 		lexer/lexer_utils.c \
 		lexer/lexer_expand.c \
 		lexer/lexer_expand_utils.c \
@@ -29,11 +30,10 @@ SRC_FILES = main.c \
 		lexer/token_print.c \
 		input_validation/input_validation.c \
 		input_validation/input_validation_utils.c \
-		expander/expander.c \
 		parser/parser.c \
 		parser/utilslist.c \
+		parser/utilslist2.c \
 		parser/parser_utils.c \
-		parser/testPrintASt.c \
 		signals/signals.c \
 		utils/utils.c \
 		utils/utils_mem.c \

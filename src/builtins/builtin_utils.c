@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 21:09:56 by rjaada            #+#    #+#             */
-/*   Updated: 2025/02/23 00:19:58 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:59:09 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,25 +69,4 @@ int	is_valid_identifier(const char *str)
 		i++;
 	}
 	return (1);
-}
-
-int	find_env_var(char **env, const char *name)
-{
-	int	i;
-	int	len;
-
-	if (!env || !name)
-		return (-1);
-	len = 0;
-	while (name[len] && name[len] != '=')
-		len++;
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], name, len) == 0 && (env[i][len] == '='
-				|| env[i][len] == '\0'))
-			return (i);
-		i++;
-	}
-	return (-1);
 }
